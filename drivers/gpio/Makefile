@@ -66,3 +66,5 @@ obj-$(CONFIG_MT7621_GPIO)	+= mt7621_gpio.o
 obj-$(CONFIG_MSCC_SGPIO)	+= mscc_sgpio.o
 obj-$(CONFIG_SIFIVE_GPIO)	+= sifive-gpio.o
 obj-$(CONFIG_MA35D1_GPIO)         += ma35d1-gpio.o
+obj-$(CONFIG_MA35H0_GPIO)         += ma35h0-gpio.o
+obj-$(CONFIG_MA35D0_GPIO)         += ma35d0-gpio.o

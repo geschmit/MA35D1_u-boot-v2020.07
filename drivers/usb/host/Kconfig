@@ -124,6 +124,20 @@ config USB_EHCI_MA35D1
 	---help---
 	  Enables support for the on-chip EHCI controller on MA35D1.
 
+config USB_EHCI_MA35D0
+	bool "Support for Nuvoton MA35D0 on-chip EHCI USB controller"
+	depends on MA35D0
+	default y
+	---help---
+	  Enables support for the on-chip EHCI controller on MA35D0.
+
+config USB_EHCI_MA35H0
+	bool "Support for Nuvoton MA35H0 on-chip EHCI USB controller"
+	depends on MA35H0
+	default y
+	---help---
+	  Enables support for the on-chip EHCI controller on MA35H0.
+
 config USB_EHCI_ATMEL
 	bool  "Support for Atmel on-chip EHCI USB controller"
 	depends on ARCH_AT91
@@ -272,6 +286,20 @@ config USB_OHCI_MA35D1
 	default y
 	---help---
 	  Enables support for the on-chip OHCI controller on MA35D1.
+
+config USB_OHCI_MA35D0
+	bool "Support for Nuvoton MA35D0 on-chip OHCI USB controller"
+	depends on MA35D0
+	default y
+	---help---
+	  Enables support for the on-chip OHCI controller on MA35D0.
+
+config USB_OHCI_MA35H0
+	bool "Support for Nuvoton MA35H0 on-chip OHCI USB controller"
+	depends on MA35H0
+	default y
+	---help---
+	  Enables support for the on-chip OHCI controller on MA35H0.
 
 config USB_OHCI_DA8XX
 	bool "Support for da850 OHCI USB controller"

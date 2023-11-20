@@ -678,5 +678,23 @@ config GMAC_MA35D1
 	help
 	  This driver provides Nuvoton MA35D1 network support based on the
 	  Synopsys Designware driver.
+	  
+config GMAC_MA35D0
+	bool "Nuvoton MA35D0 GMAC"
+	depends on DM_ETH && ETH_DESIGNWARE
+	select SYSCON
+	select REGMAP
+	help
+	  This driver provides Nuvoton MA35D0 network support based on the
+	  Synopsys Designware driver.
+
+config GMAC_MA35H0
+	bool "Nuvoton MA35H0 GMAC"
+	depends on DM_ETH && ETH_DESIGNWARE
+	select SYSCON
+	select REGMAP
+	help
+	  This driver provides Nuvoton MA35H0 network support based on the
+	  Synopsys Designware driver.
 
 endif # NETDEVICES

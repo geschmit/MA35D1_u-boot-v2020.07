@@ -5,5 +5,7 @@
 
 obj-$(CONFIG_EXYNOS_ACE_SHA)	+= ace_sha.o
 obj-$(CONFIG_MA35D1_CRYPTO) += ma35d1-crypto.o
+obj-$(CONFIG_MA35H0_CRYPTO) += ma35h0-crypto.o
+obj-$(CONFIG_MA35D0_CRYPTO) += ma35d0-crypto.o
 obj-y += rsa_mod_exp/
 obj-y += fsl/

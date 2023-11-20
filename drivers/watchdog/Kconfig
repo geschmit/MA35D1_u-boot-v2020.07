@@ -218,4 +218,20 @@ config WDT_MA35D1
 	help
 	  Enable this to support to watchdog timer on Nuvoton MA35D1.
 
+config WDT_MA35D0
+	bool "MA35D0 watchdog timer support"
+	depends on WDT
+	select REGMAP
+	imply WATCHDOG
+	help
+	  Enable this to support to watchdog timer on Nuvoton MA35D0.
+
+config WDT_MA35H0
+	bool "MA35H0 watchdog timer support"
+	depends on WDT
+	select REGMAP
+	imply WATCHDOG
+	help
+	  Enable this to support to watchdog timer on Nuvoton MA35H0.
+
 endmenu

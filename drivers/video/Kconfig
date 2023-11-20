@@ -492,6 +492,32 @@ config MA35D1_DCU_ADDR
 	help
 	   According to reserved-memory@display_buf
 
+config MA35D0_LCD
+	bool "Nuvoton MA35D0 video support"
+	depends on DM_VIDEO
+	help
+	   Supports video output to an attached LCD panel.
+
+config MA35D0_DCU_ADDR
+	hex "MA35D0 DCU framebuffer address"
+	depends on MA35D0_LCD
+	default 0x0
+	help
+	   According to reserved-memory@display_buf
+
+config MA35H0_LCD
+	bool "Nuvoton MA35H0 video support"
+	depends on DM_VIDEO
+	help
+	   Supports video output to an attached LCD panel.
+
+config MA35H0_DCU_ADDR
+	hex "MA35H0 DCU framebuffer address"
+	depends on MA35H0_LCD
+	default 0x0
+	help
+	   According to reserved-memory@display_buf
+
 config LOGICORE_DP_TX
 	bool "Enable Logicore DP TX driver"
 	depends on DISPLAY

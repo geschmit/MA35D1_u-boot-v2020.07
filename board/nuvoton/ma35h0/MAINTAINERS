@@ -1,0 +1,6 @@
+ma35h0
+M:	Chi-Wen Weng <cwweng@nuvoton.com>
+S:	Maintained
+F:	board/nuvoton/ma35h0
+F:	include/configs/ma35h0.h
+F:	configs/ma35h0_defconfig

@@ -1,0 +1,108 @@
+// SPDX-License-Identifier:
+/*
+ * Copyright 2020 - Nuvoton Technology Corporation
+ *
+ */
+
+/dts-v1/;
+#include "ma35h0.dtsi"
+
+/ {
+	model = "Nuvoton MA35H0 U-boot";
+	compatible = "nuvoton,ma35h0";
+
+	aliases {
+		spi0 = &qspi0;
+	};
+
+	memory {
+		device_type = "memory";
+		reg = <0x00000000 0x80000000 0 0x07000000>; /* 112M */
+	};
+
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&qspi0 {
+        status = "okay";
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+	spi-nand@0 {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "spi-nand";
+		spi-max-frequency = <30000000>;
+		spi-tx-bus-width = <1>;
+		spi-rx-bus-width = <4>;
+		reg = <0>;
+	};
+};
+
+&display {
+	status = "okay";
+	//RGB interface
+	swizzle = <2>;//0:ARGB, 1:RGBA, 2:ABGR, 3:BGRA
+	pixel-fmt = <6>;//RGB888
+	dpi-config = <5>;//0:D16CFG1, 1:D16CFG2, 2:D16CFG3, 3:D18CFG1, 4:D18CFG2, 5:D24
+
+	display-timings {
+		native-mode = <&timing0>;
+
+		timing0: 1024x600 {
+			clock-frequency = <51000000>;//pixel clock(pixclock)
+			hactive = <1024>;
+			vactive = <600>;
+			hsync-len = <1>;
+			hfront-porch = <160>;
+			hback-porch = <160>;
+			vsync-len = <1>;
+			vfront-porch  = <23>;
+			vback-porch = <12>;
+		};
+
+		timing1: 800x480 {
+			clock-frequency = <45000000>;
+			hactive = <800>;
+			vactive = <480>;
+			hsync-len = <1>;
+			hfront-porch = <210>;
+			hback-porch = <46>;
+			vsync-len = <1>;
+			vfront-porch  = <22>;
+			vback-porch = <23>;
+		};
+
+		timing2: 1920x1080 {
+			clock-frequency = <125000000>;
+			hactive = <1920>;
+			vactive = <1080>;
+			hsync-len = <32>;
+			hfront-porch = <120>;
+			hback-porch = <128>;
+			vsync-len = <14>;
+			vfront-porch  = <21>;
+			vback-porch = <10>;
+		};
+
+		timing3: edp_1080p {
+			clock-frequency = <148000000>;
+			hactive = <1920>;
+			vactive = <1080>;
+			hsync-len = <160>;
+			hfront-porch = <32>;
+			hback-porch = <48>;
+			vsync-len = <31>;
+			vfront-porch  = <5>;
+			vback-porch = <3>;
+		};
+	};
+};
+
+&sdhci0 {
+	status = "okay";
+};
+

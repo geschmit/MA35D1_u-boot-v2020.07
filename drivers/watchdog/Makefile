@@ -32,3 +32,5 @@ obj-$(CONFIG_WDT_STM32MP) += stm32mp_wdt.o
 obj-$(CONFIG_WDT_TANGIER) += tangier_wdt.o
 obj-$(CONFIG_WDT_XILINX) += xilinx_wwdt.o
 obj-$(CONFIG_WDT_MA35D1) += ma35d1_wdt.o
+obj-$(CONFIG_WDT_MA35H0) += ma35h0_wdt.o
+obj-$(CONFIG_WDT_MA35D0) += ma35d0_wdt.o

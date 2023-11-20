@@ -24,3 +24,5 @@ obj-$(CONFIG_RESET_SUNXI) += reset-sunxi.o
 obj-$(CONFIG_RESET_HISILICON) += reset-hisilicon.o
 obj-$(CONFIG_RESET_IMX7) += reset-imx7.o
 obj-$(CONFIG_RESET_MA35D1) += reset-ma35d1.o
+obj-$(CONFIG_RESET_MA35H0) += reset-ma35h0.o
+obj-$(CONFIG_RESET_MA35D0) += reset-ma35d0.o

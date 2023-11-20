@@ -68,6 +68,8 @@ obj-$(CONFIG_NAND_SUNXI) += sunxi_nand.o
 obj-$(CONFIG_NAND_ZYNQ) += zynq_nand.o
 obj-$(CONFIG_NAND_STM32_FMC2) += stm32_fmc2_nand.o
 obj-$(CONFIG_NAND_MA35D1) += ma35d1_nand.o
+obj-$(CONFIG_NAND_MA35D0) += ma35d0_nand.o
+obj-$(CONFIG_NAND_MA35H0) += ma35h0_nand.o
 
 else  # minimal SPL drivers
 

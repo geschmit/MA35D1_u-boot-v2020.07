@@ -11,9 +11,29 @@ config MA35D1
 	select DM
 	select DM_ETH
 	bool "Nuvoton MA35D1"
-	default y
+	default n
 
 source "arch/arm/mach-nuvoton/ma35d1/Kconfig"
 source "board/nuvoton/ma35d1/Kconfig"
+
+config MA35D0
+	select ARM64
+	select DM
+	select DM_ETH
+	bool "Nuvoton MA35D0"
+	default n
+
+source "arch/arm/mach-nuvoton/ma35d0/Kconfig"
+source "board/nuvoton/ma35d0/Kconfig"
+
+config MA35H0
+	select ARM64
+	select DM
+	select DM_ETH
+	bool "Nuvoton MA35H0"
+	default n
+
+source "arch/arm/mach-nuvoton/ma35h0/Kconfig"
+source "board/nuvoton/ma35h0/Kconfig"
 
 endif

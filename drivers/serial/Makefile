@@ -70,6 +70,8 @@ obj-$(CONFIG_OWL_SERIAL) += serial_owl.o
 obj-$(CONFIG_OMAP_SERIAL) += serial_omap.o
 obj-$(CONFIG_MTK_SERIAL) += serial_mtk.o
 obj-$(CONFIG_NUVOTON_SERIAL) += serial_nuvoton.o
+obj-$(CONFIG_MA35D0_SERIAL) += serial_ma35d0.o
+obj-$(CONFIG_MA35H0_SERIAL) += serial_ma35h0.o
 obj-$(CONFIG_SIFIVE_SERIAL) += serial_sifive.o
 
 ifndef CONFIG_SPL_BUILD

@@ -442,6 +442,18 @@ config MA35D1_GPIO
         bool "MA35D1 GPIO driver"
 	depends on DM_GPIO
         help
-          This driver supports the GPIO banks on NUVOTON MA35D1 SoCs.
+          This driver supports the GPIO banks on NUVOTON MA35H0 SoCs.
+        
+config MA35D0_GPIO
+        bool "MA35D0 GPIO driver"
+	depends on DM_GPIO
+        help
+          This driver supports the GPIO banks on NUVOTON MA35D0 SoCs.
+
+config MA35H0_GPIO
+        bool "MA35H0 GPIO driver"
+	depends on DM_GPIO
+        help
+          This driver supports the GPIO banks on NUVOTON MA35H0 SoCs.
 
 endmenu

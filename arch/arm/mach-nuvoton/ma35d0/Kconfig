@@ -1,0 +1,15 @@
+if MA35D0
+
+choice
+	prompt  "Nuvoton MA35D0 board select"
+	optional
+
+config TARGET_MA35D0_EVB
+	bool "MA35D0 EVB"
+
+config TARGET_MA35D0_IOT
+	bool "MA35D0 IoT Board"
+
+endchoice
+
+endif

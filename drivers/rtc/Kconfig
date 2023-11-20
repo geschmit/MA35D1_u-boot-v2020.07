@@ -153,4 +153,16 @@ config RTC_MA35D1
 	help
 	  Enable MA35D1 RTC driver.
 
+config RTC_MA35D0
+	bool "Enable MA35D0 RTC driver"
+	depends on DM_RTC
+	help
+	  Enable MA35D0 RTC driver.
+
+config RTC_MA35H0
+	bool "Enable MA35H0 RTC driver"
+	depends on DM_RTC
+	help
+	  Enable MA35H0 RTC driver.
+
 endmenu

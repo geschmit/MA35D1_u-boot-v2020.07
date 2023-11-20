@@ -69,6 +69,8 @@ obj-$(CONFIG_VIDEO_TEGRA20) += tegra.o
 obj-$(CONFIG_VIDEO_VCXK) += bus_vcxk.o
 obj-$(CONFIG_VIDEO_VESA) += vesa.o
 obj-$(CONFIG_MA35D1_LCD) += ma35d1_fb.o
+obj-$(CONFIG_MA35H0_LCD) += ma35h0_fb.o
+obj-$(CONFIG_MA35D0_LCD) += ma35d0_fb.o
 
 obj-y += bridge/
 obj-y += sunxi/

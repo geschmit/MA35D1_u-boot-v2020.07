@@ -380,6 +380,18 @@ config SYS_I2C_MA35D1
 	help
 	  Enable I2C support for MA35D1.
 
+config SYS_I2C_MA35D0
+	bool "MA35D0 I2C driver"
+	depends on DM_I2C
+	help
+	  Enable I2C support for MA35D0.
+
+config SYS_I2C_MA35H0
+	bool "MA35H0 I2C driver"
+	depends on DM_I2C
+	help
+	  Enable I2C support for MA35H0.
+
 config SYS_I2C_S3C24X0
 	bool "Samsung I2C driver"
 	depends on ARCH_EXYNOS4 && DM_I2C

@@ -7,6 +7,20 @@ config MA35D1_CRYPTO
 	help
 	  Enables support for the on-chip cryptographic accelerator on MA35D1.
 
+config MA35D0_CRYPTO
+	bool "Nuvoton MA35D0 cryptographic accelerator."
+	depends on MA35D0
+	default y
+	help
+	  Enables support for the on-chip cryptographic accelerator on MA35D0.
+
+config MA35H0_CRYPTO
+	bool "Nuvoton MA35H0 cryptographic accelerator."
+	depends on MA35H0
+	default y
+	help
+	  Enables support for the on-chip cryptographic accelerator on MA35H0.
+
 source drivers/crypto/fsl/Kconfig
 
 endmenu

@@ -932,10 +932,20 @@ dtb-$(CONFIG_ARCH_MEDIATEK) += \
 	mt8516-pumpkin.dtb \
 	mt8518-ap1-emmc.dtb
 
-dtb-$(CONFIG_ARCH_NUVOTON) += \
+dtb-$(CONFIG_MA35D1) += \
 	ma35d1.dtb \
 	ma35d1-sdcard0.dtb \
 	ma35d1-spinor.dtb
+
+dtb-$(CONFIG_MA35D0) += \
+	ma35d0.dtb \
+	ma35d0-sdcard0.dtb \
+	ma35d0-spinor.dtb
+
+dtb-$(CONFIG_MA35H0) += \
+	ma35h0.dtb \
+	ma35h0-sdcard0.dtb \
+	ma35h0-spinor.dtb
 
 dtb-$(CONFIG_TARGET_GE_BX50V3) += \
 	imx6q-bx50v3.dtb \

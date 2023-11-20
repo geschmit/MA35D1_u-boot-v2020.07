@@ -156,4 +156,23 @@ config RESET_MA35D1
 	default y
 	help
 	  Support for reset controller on MA35D1 SoC
+
+config RESET_MA35D0
+	select REGMAP
+	select SYSCON
+	bool "MA35D0 Reset Driver"
+	depends on DM_RESET && MA35D0
+	default y
+	help
+	  Support for reset controller on MA35D0 SoC
+
+config RESET_MA35H0
+	select REGMAP
+	select SYSCON
+	bool "MA35H0 Reset Driver"
+	depends on DM_RESET && MA35H0
+	default y
+	help
+	  Support for reset controller on MA35H0 SoC
+
 endmenu

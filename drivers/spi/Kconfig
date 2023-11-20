@@ -432,6 +432,12 @@ config MXC_SPI
 config MA35D1_SPI
         bool "MA35D1 SPI driver"
 
+config MA35D0_SPI
+        bool "MA35D0 SPI driver"
+
+config MA35H0_SPI
+        bool "MA35H0 SPI driver"
+
 config OMAP3_SPI
 	bool "McSPI driver for OMAP"
 	help

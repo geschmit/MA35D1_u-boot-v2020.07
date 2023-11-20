@@ -1,13 +1,47 @@
 config PINCTRL_MA35D1
 	bool "NUVOTON MA35D1 pin control drivers"
 	depends on PINCTRL_GENERIC
+	depends on MA35D1 
 	default y
 	help
 	  Enable support pin control functions for NVT SoCs.
 
 config SPL_PINCTRL_MA35D1
 	bool "Support NUVOTON MA35D1 pin controllers in SPL"
+	depends on SPL_PINCTRL_GENERIC 
+	depends on MA35D1
+	default y
+	help
+	  This option is an SPL-variant of the PINCTRL_NVT option.
+
+config PINCTRL_MA35D0
+	bool "NUVOTON MA35D0 pin control drivers"
+	depends on PINCTRL_GENERIC
+	depends on MA35D0
+	default y
+	help
+	  Enable support pin control functions for NVT SoCs.
+
+config SPL_PINCTRL_MA35D0
+	bool "Support NUVOTON MA35D0 pin controllers in SPL"
 	depends on SPL_PINCTRL_GENERIC
+	depends on MA35D0
+	default y
+	help
+	  This option is an SPL-variant of the PINCTRL_NVT option.
+	  
+config PINCTRL_MA35H0
+	bool "NUVOTON MA35H0 pin control drivers"
+	depends on PINCTRL_GENERIC
+	depends on MA35H0
+	default y
+	help
+	  Enable support pin control functions for NVT SoCs.
+
+config SPL_PINCTRL_MA35H0
+	bool "Support NUVOTON MA35H0 pin controllers in SPL"
+	depends on SPL_PINCTRL_GENERIC
+	depends on MA35H0
 	default y
 	help
 	  This option is an SPL-variant of the PINCTRL_NVT option.
