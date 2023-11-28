@@ -255,7 +255,7 @@ static int ma35d1_fb_video_probe(struct udevice *dev)
 	struct video_priv *uc_priv = dev_get_uclass_priv(dev);
 	struct ma35d1_fb_priv *priv = dev_get_priv(dev);
 	struct regmap *regmap, *regmap_sys;
-	u32 u32Reg[2] = {0};
+	u32 u32Reg[2] = {0}, val;
 	struct ofnode_phandle_args args;
 	ofnode node;
 	struct display_timing timings;
@@ -369,6 +369,14 @@ static int ma35d1_fb_video_probe(struct udevice *dev)
 	debug("\tPixel Clock@%lldHz VPLL:0x%08x, 0x%08x\n", priv->pixclock.rate, u32Reg[0], u32Reg[1]);
 
 	regmap_sys = syscon_regmap_lookup_by_phandle(dev,"nuvoton,sys");
+	regmap_read(regmap_sys, 0, &val);
+	val = (val >> 16) & 0xff;
+		printf("    PDID: 0x%02x\n", val);
+		if(val == 0xa1 || val == 0x81 || val == 0x82) {
+			dev_err(dev, "Failed to find Nuvoton Framebuffer driver\n");
+			return -EINVAL;
+	}
+
 	CLK_UnLockReg(regmap_sys);
 	/* Set Pixel Clock */
 	regmap_write(regmap, REG_CLK_PLL5CTL0, u32Reg[0]);

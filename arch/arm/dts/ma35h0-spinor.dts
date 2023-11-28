@@ -76,30 +76,6 @@
 			vfront-porch  = <22>;
 			vback-porch = <23>;
 		};
-
-		timing2: 1920x1080 {
-			clock-frequency = <125000000>;
-			hactive = <1920>;
-			vactive = <1080>;
-			hsync-len = <32>;
-			hfront-porch = <120>;
-			hback-porch = <128>;
-			vsync-len = <14>;
-			vfront-porch  = <21>;
-			vback-porch = <10>;
-		};
-
-		timing3: edp_1080p {
-			clock-frequency = <148000000>;
-			hactive = <1920>;
-			vactive = <1080>;
-			hsync-len = <160>;
-			hfront-porch = <32>;
-			hback-porch = <48>;
-			vsync-len = <31>;
-			vfront-porch  = <5>;
-			vback-porch = <3>;
-		};
 	};
 };
 
