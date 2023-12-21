@@ -86,5 +86,5 @@ obj-$(CONFIG_MDIO_SANDBOX) += mdio_sandbox.o
 obj-$(CONFIG_FSL_ENETC) += fsl_enetc.o fsl_enetc_mdio.o
 obj-$(CONFIG_FSL_LS_MDIO) += fsl_ls_mdio.o
 obj-$(CONFIG_GMAC_MA35D1) += ma35d1_gmac.o
-obj-$(CONFIG_GMAC_MA35H0) += ma35h0_gmac.o
-obj-$(CONFIG_GMAC_MA35D0) += ma35d0_gmac.o
+obj-$(CONFIG_EMAC_MA35H0) += ma35h0_emac.o
+obj-$(CONFIG_EMAC_MA35D0) += ma35d0_emac.o

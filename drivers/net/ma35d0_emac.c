@@ -31,11 +31,11 @@ DECLARE_GLOBAL_DATA_PTR;
 #define RXDLY_OFST	20
 #define RXDLY_MSK	(0xF << RXDLY_OFST)
 /*
- * Platform data for the gmac
+ * Platform data for the emac
  *
  * dw_eth_pdata: Required platform data for designware driver (must be first)
  */
-struct gmac_ma35d0_platdata {
+struct emac_ma35d0_platdata {
 	struct dw_eth_pdata dw_eth_pdata;
 	struct regmap *regmap;
 	int id;
@@ -44,9 +44,9 @@ struct gmac_ma35d0_platdata {
 	int rx_delay;
 };
 
-static int gmac_ma35d0_ofdata_to_platdata(struct udevice *dev)
+static int emac_ma35d0_ofdata_to_platdata(struct udevice *dev)
 {
-	struct gmac_ma35d0_platdata *pdata = dev_get_platdata(dev);
+	struct emac_ma35d0_platdata *pdata = dev_get_platdata(dev);
 
 	pdata->id = dev_read_u32_default(dev, "mac-id", 0);
 	pdata->tx_delay = dev_read_u32_default(dev, "tx_delay", -ENOENT);
@@ -60,9 +60,9 @@ static int gmac_ma35d0_ofdata_to_platdata(struct udevice *dev)
 	return designware_eth_ofdata_to_platdata(dev);
 }
 
-static int gmac_ma35d0_probe(struct udevice *dev)
+static int emac_ma35d0_probe(struct udevice *dev)
 {
-	struct gmac_ma35d0_platdata *pdata = dev_get_platdata(dev);
+	struct emac_ma35d0_platdata *pdata = dev_get_platdata(dev);
 	struct dw_eth_pdata *dw_pdata = dev_get_platdata(dev);
 	struct eth_pdata *eth_pdata = &dw_pdata->eth_pdata;
 	struct ofnode_phandle_args args;
@@ -134,7 +134,7 @@ static int gmac_ma35d0_probe(struct udevice *dev)
 
 static int ma35d0_read_rom_hwaddr(struct udevice *dev)
 {
-	struct gmac_ma35d0_platdata *pdata = dev_get_platdata(dev);
+	struct emac_ma35d0_platdata *pdata = dev_get_platdata(dev);
 	struct eth_pdata *eth_pdata = dev_get_platdata(dev);
 	u32 reg;
 
@@ -154,7 +154,7 @@ static int ma35d0_read_rom_hwaddr(struct udevice *dev)
 	return !is_valid_ethaddr(eth_pdata->enetaddr);
 }
 
-const struct eth_ops gmac_ma35d0_eth_ops = {
+const struct eth_ops emac_ma35d0_eth_ops = {
 	.start			= designware_eth_start,
 	.send			= designware_eth_send,
 	.recv			= designware_eth_recv,
@@ -164,19 +164,19 @@ const struct eth_ops gmac_ma35d0_eth_ops = {
 	.read_rom_hwaddr	= ma35d0_read_rom_hwaddr,
 };
 
-static const struct udevice_id ma35d0_gmac_ids[] = {
-	{ .compatible = "nuvoton,ma35d0-gmac" },
+static const struct udevice_id ma35d0_emac_ids[] = {
+	{ .compatible = "nuvoton,ma35d0-emac" },
 	{ }
 };
 
-U_BOOT_DRIVER(eth_gmac_ma35d0) = {
-	.name	= "gmac_ma35d0",
+U_BOOT_DRIVER(eth_emac_ma35d0) = {
+	.name	= "emac_ma35d0",
 	.id	= UCLASS_ETH,
-	.of_match = ma35d0_gmac_ids,
-	.ofdata_to_platdata = gmac_ma35d0_ofdata_to_platdata,
-	.probe	= gmac_ma35d0_probe,
-	.ops	= &gmac_ma35d0_eth_ops,
+	.of_match = ma35d0_emac_ids,
+	.ofdata_to_platdata = emac_ma35d0_ofdata_to_platdata,
+	.probe	= emac_ma35d0_probe,
+	.ops	= &emac_ma35d0_eth_ops,
 	.priv_auto_alloc_size = sizeof(struct dw_eth_dev),
-	.platdata_auto_alloc_size = sizeof(struct gmac_ma35d0_platdata),
+	.platdata_auto_alloc_size = sizeof(struct emac_ma35d0_platdata),
 	.flags = DM_FLAG_ALLOC_PRIV_DMA,
 };

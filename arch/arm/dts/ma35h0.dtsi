@@ -413,8 +413,8 @@
 			};
 		};
 
-		gmac0 {
-			pinctrl_gmac0: gmac0grp{
+		emac0 {
+			pinctrl_emac0: emac0grp{
 				nuvoton,pins =
 				<SYS_GPE_MFPL_PE0MFP_RMII0_MDC		&pcfg_emac_3_3V>,
 				<SYS_GPE_MFPL_PE1MFP_RMII0_MDIO		&pcfg_emac_3_3V>,
@@ -664,15 +664,15 @@
 		status = "okay";
 	};
 
-	gmac0: ethernet@40120000 {
-		compatible = "nuvoton,ma35h0-gmac";
+	emac0: ethernet@40120000 {
+		compatible = "nuvoton,ma35h0-emac";
 		reg = <0x0 0x40120000 0x0 0x10000>;
 		mac-address = [ 00 11 22 33 44 55 ];
 		phy-mode = "rmii";
 		phy-handle = <&eth_phy0>;
 		nuvoton,ma35h0-sys = <&sys>;
 		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gmac0>;
+		pinctrl-0 = <&pinctrl_emac0>;
 		clocks = <&clk emac0_gate>;
 		clock-names = "stmmaceth";
 		mac-id = <0>;
