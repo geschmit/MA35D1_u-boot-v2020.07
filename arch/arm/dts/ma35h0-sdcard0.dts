@@ -45,7 +45,7 @@
 &display {
 	status = "okay";
 	//RGB interface
-	swizzle = <2>;//0:ARGB, 1:RGBA, 2:ABGR, 3:BGRA
+	swizzle = <0>;//0:ARGB, 1:RGBA, 2:ABGR, 3:BGRA
 	pixel-fmt = <6>;//RGB888
 	dpi-config = <5>;//0:D16CFG1, 1:D16CFG2, 2:D16CFG3, 3:D18CFG1, 4:D18CFG2, 5:D24
 
