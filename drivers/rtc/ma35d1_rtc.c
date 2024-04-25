@@ -17,6 +17,8 @@
 #include <linux/bitops.h>
 #include <linux/iopoll.h>
 #include <rtc.h>
+#include <dm/ofnode.h>
+#include <linux/ioport.h>
 
 #define		REG_RTC_INIR                    (0x0000) /* Initial register */
 #define		REG_RTC_AER                     (0x0004) /* Access Enable Register*/
@@ -133,8 +135,14 @@ static int ma35d1_rtc_probe(struct udevice *dev)
 	uint32_t val;
 	struct clk clk;
 	int ret;
+#ifdef CONFIG_OF_LIVE
+	struct resource res;
 
+	dev_read_resource(dev, 0, &res);
+	priv->base =(void __iomem *)res.start;
+#else
 	priv->base = dev_read_addr(dev);
+#endif
 	if (priv->base == FDT_ADDR_T_NONE)
 		return -EINVAL;
 

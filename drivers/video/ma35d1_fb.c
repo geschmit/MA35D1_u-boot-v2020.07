@@ -16,6 +16,8 @@
 #include <dt-bindings/clock/ma35d1-clk.h>
 #include <syscon.h>
 #include <regmap.h>
+#include <dm/ofnode.h>
+#include <linux/ioport.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -262,8 +264,14 @@ static int ma35d1_fb_video_probe(struct udevice *dev)
 	struct ma35d1_lcd_info disp_info;
 	u32 pix_fmt, pix_swizzle;
 	int ret;
+#ifdef CONFIG_OF_LIVE
+	struct resource res;
 
+	dev_read_resource(dev, 0, &res);
+	priv->regs =(void __iomem *)res.start;
+#else
 	priv->regs = (void *)dev_read_addr(dev);
+#endif
 	if ((fdt_addr_t)priv->regs == FDT_ADDR_T_NONE) {
 		dev_err(dev, "dt register address error\n");
 		return -EINVAL;

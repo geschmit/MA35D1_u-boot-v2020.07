@@ -12,6 +12,8 @@
 #include <mmc.h>
 #include <sdhci.h>
 #include <clk.h>
+#include <dm/ofnode.h>
+#include <linux/ioport.h>
 
 #define SDHCI_DWCMSHC_FMAX 180000000
 #define SDHCI_DWCMSHC_FMIN 400000
@@ -37,18 +39,27 @@ static int sdhci_dwcmshc_probe(struct udevice *dev)
 	struct clk gate_clk;
 	fdt_addr_t base;
 	int ret;
+#ifdef CONFIG_OF_LIVE
+	struct resource res;
+#endif
 
 	ret = clk_get_by_name(dev, "core", &gate_clk);
 	if (!ret)
 		clk_enable(&gate_clk);
 
+#ifdef CONFIG_OF_LIVE
+	dev_read_resource(dev, 0, &res);
+	plat->ioaddr =(void __iomem *)res.start;
+	if (!plat->ioaddr)
+		return -ENOMEM;
+#else
 	base = devfdt_get_addr(dev);
 	if (base == FDT_ADDR_T_NONE)
 		return -EINVAL;
 	plat->ioaddr = devm_ioremap(dev, base, SZ_1K);
 	if (!plat->ioaddr)
 		return -ENOMEM;
-
+#endif
 	host->name = dev->name;
 	host->ioaddr = plat->ioaddr;
 	host->quirks = SDHCI_QUIRK_NO_HISPD_BIT | SDHCI_QUIRK_BROKEN_VOLTAGE |

@@ -726,19 +726,44 @@ static int ma35d1_nand_read_oob_hwecc(struct mtd_info *mtd, struct nand_chip *ch
 	return 0;
 }
 
-
-
 int ma35d1_nand_init(struct ma35d1_nand_info *nand_info)
 {
 	struct nand_chip *nand = &nand_info->chip;
 	struct mtd_info *mtd = nand_to_mtd(nand);
 	unsigned int reg;
 	int ret = 0;
+#ifdef CONFIG_OF_LIVE
+	ofnode node;
+	const char *str;
+#endif
 
 	nand_set_controller_data(nand, nand_info);
 	nand->options |= NAND_NO_SUBPAGE_WRITE;
-
+#ifdef CONFIG_OF_LIVE
+	node = dev_ofnode(nand_info->dev);
+	if (ofnode_read_bool(node, "nand-on-flash-bbt"))
+		nand->bbt_options |= NAND_BBT_USE_FLASH;
+	nand->ecc.strength = ofnode_read_u32_default(node, "nand-ecc-strength", -1);
+	nand->ecc.size  = ofnode_read_u32_default(node, "nand-ecc-step-size", -1);
+	str = ofnode_read_string(node, "nand-ecc-mode");
+	if (str) {
+		if (!strcmp(str, "none"))
+			nand->ecc.mode = NAND_ECC_NONE;
+		else if (!strcmp(str, "soft"))
+			nand->ecc.mode = NAND_ECC_SOFT;
+		else if (!strcmp(str, "hw"))
+			nand->ecc.mode = NAND_ECC_HW;
+		else if (!strcmp(str, "hw_syndrome"))
+			nand->ecc.mode = NAND_ECC_HW_SYNDROME;
+		else if (!strcmp(str, "hw_oob_first"))
+			nand->ecc.mode = NAND_ECC_HW_OOB_FIRST;
+		else if (!strcmp(str, "soft_bch"))
+			nand->ecc.mode = NAND_ECC_SOFT_BCH;
+	}
+#else
 	nand->flash_node = dev_of_offset(nand_info->dev);
+#endif
+
 	/* hwcontrol always must be implemented */
 	nand->cmd_ctrl = ma35d1_hwcontrol;
 	nand->cmdfunc = ma35d1_nand_command;

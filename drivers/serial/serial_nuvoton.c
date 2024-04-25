@@ -19,6 +19,8 @@
 #include <linux/err.h>
 #include <dm/device_compat.h>
 #include <debug_uart.h>
+#include <dm/ofnode.h>
+#include <linux/ioport.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -128,11 +130,17 @@ static int ma35d1_serial_probe(struct udevice *dev)
 	struct ma35d1_serial_platdata *plat = dev_get_platdata(dev);
 	struct ma35d1_serial_priv *priv = dev_get_priv(dev);
 	fdt_addr_t addr;
+#ifdef CONFIG_OF_LIVE
+	struct resource res;
 
+	dev_read_resource(dev, 0, &res);
+	addr =(void __iomem *)res.start;
+#else
 	addr = devfdt_get_addr(dev);
 
 	if (addr == FDT_ADDR_T_NONE)
 		return -EINVAL;
+#endif
 
 	plat->base = addr;
 	priv->regs = (struct ma35d1_serial_regs *)plat->base;

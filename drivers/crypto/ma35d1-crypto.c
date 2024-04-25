@@ -14,6 +14,8 @@
 #include <syscon.h>
 #include <regmap.h>
 #include <ma35d1-sys.h>
+#include <dm/ofnode.h>
+#include <linux/ioport.h>
 
 #include "ma35d1-crypto.h"
 
@@ -96,10 +98,20 @@ int ma35d1_aes_decrypt(u32 keynum, u32 src_addr,
 
 static int ma35d1_crypto_bind(struct udevice *dev)
 {
+#ifdef CONFIG_OF_LIVE
+	struct resource res;
+#endif
+
 	/*
 	 * Get the base address for Crypto from the device node
 	 */
+
+#ifdef CONFIG_OF_LIVE
+	dev_read_resource(dev, 0, &res);
+	_ma35d1_crypto.reg_base =(void __iomem *)res.start;
+#else
 	_ma35d1_crypto.reg_base = (void *)devfdt_get_addr(dev);
+#endif
 	if (_ma35d1_crypto.reg_base == (void *)FDT_ADDR_T_NONE) {
 		printf("Can't get the CRYPTO register base address\n");
 		return -ENXIO;

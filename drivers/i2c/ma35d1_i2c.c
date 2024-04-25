@@ -18,6 +18,8 @@
 #include <i2c.h>
 
 #include <dm/device.h>
+#include <dm/ofnode.h>
+#include <linux/ioport.h>
 
 /*-----------------------------------------*/
 /* global interface variables declarations */
@@ -320,8 +322,14 @@ static int ma35d1_i2c_probe(struct udevice *dev)
 	struct ma35d1_i2c_regs *regs;
 	fdt_addr_t addr;
 	int ret = 0;
+#ifdef CONFIG_OF_LIVE
+	struct resource res;
 
+	dev_read_resource(dev, 0, &res);
+	addr =(void __iomem *)res.start;
+#else
 	addr = devfdt_get_addr(dev);
+#endif
 	if (addr == FDT_ADDR_T_NONE)
 		return -EINVAL;
 

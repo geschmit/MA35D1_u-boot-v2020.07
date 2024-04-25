@@ -16,6 +16,8 @@
 #include <linux/libfdt.h>
 #include <linux/err.h>
 #include <asm/io.h>
+#include <dm/ofnode.h>
+#include <linux/ioport.h>
 
 #include "pinctrl-nvt.h"
 
@@ -396,14 +398,22 @@ static int nvt_pinctrl_get_soc_data(struct udevice *dev)
 		bank = ctrl->pin_banks;
 		for (i = 0; i < ctrl->nr_banks; ++i, ++bank) {
 			if (!strncmp(bank->name, ofnode_get_name(node), 5)) {
+				#ifdef CONFIG_OF_LIVE
+				struct resource res;
+				#endif
 				device_bind_driver_to_node(dev, "ma35d1_gpio",
 							   ofnode_get_name
 							   (node), node,
 							   &bank->dev);
 				bank->dev->driver_data = i;
+				#ifdef CONFIG_OF_LIVE
+				dev_read_resource(bank->dev, 0, &res);
+				bank->reg_base =(void __iomem *)res.start;
+				#else
 				device_probe(bank->dev);
 				bank->reg_base =
-				    (void __iomem *)devfdt_get_addr(bank->dev);
+				    (void __iomem *)devfdt_get_addr(bank->dev);			
+				#endif
 				bank->nr_pins = 16;
 				bank->pin_base = (i * bank->nr_pins);
 				bank->valid = true;
