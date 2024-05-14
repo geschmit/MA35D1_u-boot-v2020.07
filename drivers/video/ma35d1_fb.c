@@ -40,6 +40,7 @@ enum {
 #define dcregDisplayIntrEnable			0x1480
 #define dcregDisplayIntr			0x147C
 
+#define REG_CLK_CLKDIV0				0x2C
 #define REG_CLK_PLL5CTL0			0xB0
 #define REG_CLK_PLL5CTL1			0xB4
 
@@ -108,6 +109,7 @@ struct ma35d1_fb_priv {
 };
 
 u32 gu32_dpiConfig;
+const uint32_t DivideFactor[] = {2, 4, 6, 8, 10, 12, 14, 16};
 
 #define REG_SYS_RLKTZNS 0x1A4
 static void CLK_UnLockReg(struct regmap *regmap)
@@ -127,6 +129,30 @@ static void CLK_LockReg(struct regmap *regmap)
 {
 	/* Lock PLL registers */
 	regmap_write(regmap, REG_SYS_RLKTZNS, 0x0);
+}
+
+static ulong ma35d1_fb_cal_div_pixel_clk(ulong rate,  u32 *DivVal)
+{
+	u32 retFreq = 0, FactorIdx, tmpFreq, val = 0;
+	ulong u64PllClk;
+
+	for (FactorIdx = 0; FactorIdx < 8; FactorIdx++)
+	{
+		tmpFreq = rate * DivideFactor[FactorIdx];
+		if(tmpFreq < 85700000)
+			continue;
+		else
+		{
+			retFreq = tmpFreq;
+			DivVal[0] = FactorIdx;
+			break;
+		}
+	}
+
+	val = DivVal[0];
+	u64PllClk = rate*DivideFactor[val];
+	debug("div [ %d ]: %d -> Target PixCLK: %ld Hz\n", val, DivVal[0], u64PllClk);
+	return u64PllClk;
 }
 
 static ulong ma35d1_fb_cal_pixel_clk_rate(ulong PllSrcClk, ulong rate,
@@ -259,6 +285,7 @@ static int ma35d1_fb_video_probe(struct udevice *dev)
 	struct regmap *regmap, *regmap_sys;
 	u32 u32Reg[2] = {0}, val;
 	struct ofnode_phandle_args args;
+	u32 dcpdiv_val[1]= {0}, TargetPixelClk;
 	ofnode node;
 	struct display_timing timings;
 	struct ma35d1_lcd_info disp_info;
@@ -369,12 +396,19 @@ static int ma35d1_fb_video_probe(struct udevice *dev)
 		dev_err(dev, "can't get syscon: %d\n", ret);
 		return ret;
 	}
-
+#if 0
 	/* Calculate Pixel Clock, DCUP = VPLL/2 */
 	priv->pixclock.rate *= 2;
 	priv->pixclock.rate = ma35d1_fb_cal_pixel_clk_rate(24000000,
 	                      priv->pixclock.rate, u32Reg);
-	debug("\tPixel Clock@%lldHz VPLL:0x%08x, 0x%08x\n", priv->pixclock.rate, u32Reg[0], u32Reg[1]);
+#else
+	/* Calculate Pixel Divided Clock, DCUP = VPLL/(2,4,6,8,10,12,14,16) */
+	TargetPixelClk = ma35d1_fb_cal_div_pixel_clk(priv->pixclock.rate, dcpdiv_val);
+	priv->pixclock.rate = ma35d1_fb_cal_pixel_clk_rate(24000000,
+	                      TargetPixelClk, u32Reg);
+#endif
+	//debug("\tPixel Clock@%lldHz VPLL:0x%08x, 0x%08x\n", priv->pixclock.rate, u32Reg[0], u32Reg[1]);
+	//debug("\tPixel Clock Div (%d): %d\n", DivideFactor[dcpdiv_val[0]], dcpdiv_val[0]);
 
 	regmap_sys = syscon_regmap_lookup_by_phandle(dev,"nuvoton,sys");
 	regmap_read(regmap_sys, 0, &val);
@@ -386,9 +420,16 @@ static int ma35d1_fb_video_probe(struct udevice *dev)
 	}
 
 	CLK_UnLockReg(regmap_sys);
-	/* Set Pixel Clock */
+
+	/* Set Pixel Clock and DIV */
 	regmap_write(regmap, REG_CLK_PLL5CTL0, u32Reg[0]);
 	regmap_write(regmap, REG_CLK_PLL5CTL1, u32Reg[1]);
+
+	regmap_read(regmap, REG_CLK_CLKDIV0, &val);
+	val = (val &~(0x7<<16)) | (dcpdiv_val[0] << 16);
+	regmap_write(regmap, REG_CLK_CLKDIV0, val);
+	regmap_read(regmap, REG_CLK_CLKDIV0, &val);
+
 	CLK_LockReg(regmap_sys);
 
 	/* Reset */
