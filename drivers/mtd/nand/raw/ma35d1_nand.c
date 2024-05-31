@@ -126,6 +126,10 @@ static void ma35d1_layout_oob_table(struct nand_ecclayout *pNandOOBTbl,
 	pNandOOBTbl->oobfree[0].offset = 4;  // Bad block marker size
 
 	pNandOOBTbl->oobfree[0].length = oobsize - eccbytes - pNandOOBTbl->oobfree[0].offset;
+
+	pNandOOBTbl->oobfree[1].offset = 0;
+
+	pNandOOBTbl->oobfree[1].length = 0;
 }
 
 
