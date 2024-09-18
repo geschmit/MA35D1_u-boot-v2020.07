@@ -376,7 +376,7 @@ static int nvt_pinctrl_get_soc_data(struct udevice *dev)
 {
 	struct nvt_pinctrl_priv *priv = dev_get_priv(dev);
 	struct nvt_pin_ctrl *ctrl = priv->ctrl;
-#ifdef CONFIG_MA35D1_GPIO
+#if defined(CONFIG_MA35D1_GPIO) || defined(CONFIG_MA35D0_GPIO) || defined(CONFIG_MA35H0_GPIO)
 	int i;
 	ofnode node;
 	struct nvt_pin_bank *bank;
