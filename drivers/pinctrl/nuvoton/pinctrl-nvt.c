@@ -80,7 +80,7 @@ static int nvt_set_mux(struct nvt_pinctrl_priv *priv,
 	return 0;
 }
 
-#ifdef CONFIG_MA35D1_GPIO
+#if defined(CONFIG_MA35D1_GPIO) || defined(CONFIG_MA35D0_GPIO) || defined(CONFIG_MA35H0_GPIO)
 static void nvt_gpio_cla_port(unsigned int gpio_num, int *group, int *num)
 {
 	*group = gpio_num / GPIO_OFFSET;
@@ -288,7 +288,7 @@ static int nvt_pinctrl_set_state(struct udevice *dev,
 	int ret, size, i;
 	const u32 *data;
 	u32 offset, shift, muxval, conf, pins;
-#ifdef CONFIG_MA35D1_GPIO
+#if defined(CONFIG_MA35D1_GPIO) || defined(CONFIG_MA35D0_GPIO) || defined(CONFIG_MA35H0_GPIO)
 	const void *value;
 	const char *prop_name;
 	int prop_len, param;
@@ -330,7 +330,7 @@ static int nvt_pinctrl_set_state(struct udevice *dev,
 		ret = nvt_set_mux(priv, offset, shift, muxval);
 		if (ret)
 			return ret;
-#ifdef CONFIG_MA35D1_GPIO
+#if defined(CONFIG_MA35D1_GPIO) || defined(CONFIG_MA35D0_GPIO) || defined(CONFIG_MA35H0_GPIO)
 		node = ofnode_get_by_phandle(conf);
 		if (!ofnode_valid(node))
 			return -ENODEV;
@@ -401,10 +401,22 @@ static int nvt_pinctrl_get_soc_data(struct udevice *dev)
 				#ifdef CONFIG_OF_LIVE
 				struct resource res;
 				#endif
+				#if defined(CONFIG_MA35D1_GPIO)
 				device_bind_driver_to_node(dev, "ma35d1_gpio",
 							   ofnode_get_name
 							   (node), node,
 							   &bank->dev);
+				#elif defined(CONFIG_MA35D0_GPIO)
+				device_bind_driver_to_node(dev, "ma35d0_gpio",
+							   ofnode_get_name
+							   (node), node,
+							   &bank->dev);
+				#elif defined(CONFIG_MA35H0_GPIO)
+				device_bind_driver_to_node(dev, "ma35h0_gpio",
+							   ofnode_get_name
+							   (node), node,
+							   &bank->dev);
+				#endif
 				bank->dev->driver_data = i;
 				#ifdef CONFIG_OF_LIVE
 				dev_read_resource(bank->dev, 0, &res);
